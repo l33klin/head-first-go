@@ -39,5 +39,6 @@ func main() {
 			fmt.Printf("You've out of chance, the target is: %v.\n", target)
 			break
 		}
+		fmt.Printf("Your have %d chances to guess!", chances)
 	}
 }
