@@ -8,9 +8,11 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func main() {
+	rand.Seed(time.Now().Unix())
 	target := rand.Intn(100) + 1
 	chances := 10
 	for chances > 0 {
