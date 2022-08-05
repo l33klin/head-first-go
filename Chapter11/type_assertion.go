@@ -33,6 +33,7 @@ func (t TapeRecorder) Stop() {
 func TryOut(player Player) {
 	player.Play("Song~")
 	player.Stop()
+	// type assertion
 	if tr, ok := player.(TapeRecorder); ok {
 		tr.Record()
 	}
