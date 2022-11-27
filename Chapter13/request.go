@@ -8,13 +8,18 @@ import (
 )
 
 func main() {
-	ch := make(chan int)
-	go responseSize("https://apple.com", ch)
-	go responseSize("https://baidu.com", ch)
-	go responseSize("https://taobao.com", ch)
-	fmt.Println(<-ch)
-	fmt.Println(<-ch)
-	fmt.Println(<-ch)
+	sizes := make(chan int)
+	urls := []string{
+		"https://apple.com",
+		"https://baidu.com",
+		"https://taobao.com",
+	}
+	for _, url := range urls {
+		go responseSize(url, sizes)
+	}
+	for i := 0; i < len(urls); i++ {
+		fmt.Println(<-sizes)
+	}
 }
 
 func responseSize(url string, ch chan int) {
