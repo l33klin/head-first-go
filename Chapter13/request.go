@@ -7,22 +7,12 @@ import (
 	"net/http"
 )
 
-func main() {
-	sizes := make(chan int)
-	urls := []string{
-		"https://apple.com",
-		"https://baidu.com",
-		"https://taobao.com",
-	}
-	for _, url := range urls {
-		go responseSize(url, sizes)
-	}
-	for i := 0; i < len(urls); i++ {
-		fmt.Println(<-sizes)
-	}
+type Page struct {
+	URL  string
+	Size int
 }
 
-func responseSize(url string, ch chan int) {
+func responseSize(url string, ch chan Page) {
 	fmt.Println("Getting", url)
 	response, err := http.Get(url)
 	if err != nil {
@@ -34,5 +24,20 @@ func responseSize(url string, ch chan int) {
 		log.Fatal(err)
 	}
 	//fmt.Println(len(body))
-	ch <- len(body)
+	ch <- Page{URL: url, Size: len(body)}
+}
+
+func main() {
+	sizes := make(chan Page)
+	urls := []string{
+		"https://apple.com",
+		"https://baidu.com",
+		"https://taobao.com",
+	}
+	for _, url := range urls {
+		go responseSize(url, sizes)
+	}
+	for i := 0; i < len(urls); i++ {
+		fmt.Println(<-sizes)
+	}
 }
