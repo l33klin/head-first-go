@@ -1,3 +1,6 @@
 First Signature
 Second Signature
 Third Signature
+<script>alert("hi!");</script>
+Try add a new signature!
+Another new signature.
